@@ -9,8 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_card_swiper: ^7.0.2
+  flutter_dotenv: ^6.0.0
   font_awesome_flutter: ^10.9.0
   google_fonts: ^6.3.0
+  http: ^1.5.0
 
 dev_dependencies:
   flutter_test:
@@ -19,3 +22,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - .env
