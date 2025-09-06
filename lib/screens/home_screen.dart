@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realm/components/search_modal.dart';
 import 'package:realm/screens/profile_screen.dart';
 import 'package:realm/screens/stories_screeen.dart';
 import 'package:realm/util.dart';
@@ -62,7 +63,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+                IconButton(
+                  onPressed: () => showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    showDragHandle: true,
+                    builder: (context) => const SearchModal(),
+                  ),
+                  icon: const Icon(Icons.search),
+                ),
                 IconButton(
                   onPressed: () => Navigator.push(
                     context,

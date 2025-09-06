@@ -19,3 +19,7 @@ String getMyUsername3letters() {
   final email = supabase.auth.currentUser?.email ?? '';
   return email[0].toUpperCase() + email.substring(1, 3);
 }
+
+String formattedUrl(String url) {
+  return 'https://dzndxdypnvjafxmindwj.supabase.co/storage/v1/object/public/uploads/$url';
+}

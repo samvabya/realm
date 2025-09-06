@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     leading: CircleAvatar(
                       radius: 30,
                       backgroundImage: user?.image != null
-                          ? NetworkImage(user!.image!)
+                          ? NetworkImage(formattedUrl(user!.image!))
                           : null,
                       child: user?.image == null
                           ? const Icon(Icons.person, size: 30)
