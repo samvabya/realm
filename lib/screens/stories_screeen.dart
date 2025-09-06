@@ -11,10 +11,16 @@ class StoriesScreen extends StatelessWidget {
       extendBody: true,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        // title: const Text('Story Cards'),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(child: BackButton()),
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            child: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(Icons.close),
+              color: Colors.black,
+            ),
+          ),
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -72,6 +78,11 @@ class StoriesScreen extends StatelessWidget {
                                         : null,
                                   ),
                                 ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              AspectRatio(
+                                aspectRatio: 9 / 16,
+                                child: Container(color: Colors.red),
+                              ),
                         ),
                       ),
                   cardsCount: 5,
@@ -86,10 +97,26 @@ class StoriesScreen extends StatelessWidget {
         color: Colors.transparent,
         elevation: 0,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 8,
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.thumb_up)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.undo)),
+            FilledButton.icon(
+              onPressed: () {},
+              icon: Icon(Icons.thumb_up),
+              label: Text('Like'),
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+              ),
+            ),
+            IconButton.filled(
+              onPressed: () {},
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+              ),
+              icon: Icon(Icons.undo),
+            ),
           ],
         ),
       ),

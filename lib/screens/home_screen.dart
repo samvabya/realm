@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:realm/screens/profile_screen.dart';
 import 'package:realm/screens/stories_screeen.dart';
+import 'package:realm/util.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 preferredSize: const Size.fromHeight(88),
                 child: ListTile(
                   title: Text(
-                    'Hey Sam!',
+                    'Hey ${getMyUsername3letters()}!',
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
@@ -62,7 +64,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileScreen(),
+                    ),
+                  ),
                   icon: const Icon(Icons.account_circle_outlined),
                 ),
               ],

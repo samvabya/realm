@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:realm/screens/main_screen.dart';
+import 'package:realm/components/signin_modal.dart';
 
-class SigninScreen extends StatelessWidget {
+class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
 
+  @override
+  State<SigninScreen> createState() => _SigninScreenState();
+}
+
+class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -27,7 +32,7 @@ class SigninScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text.rich(
                       textAlign: TextAlign.center,
-                      textScaler: TextScaler.linear(1.7),
+                      textScaler: TextScaler.linear(1.5),
                       style: GoogleFonts.montserrat(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -61,13 +66,14 @@ class SigninScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: Center(
                   child: FilledButton.icon(
-                    onPressed: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MainScreen(),
-                      ),
+                    onPressed: () => showModalBottomSheet(
+                      isScrollControlled: true,
+                      showDragHandle: true,
+                      
+                      context: context,
+                      builder: (context) => const SigninModal(),
                     ),
-                    label: const Text('Sign In with Google'),
+                    label: const Text('Sign In with Email'),
                     icon: FaIcon(FontAwesomeIcons.google, size: 30),
                     style: FilledButton.styleFrom(
                       padding: EdgeInsets.symmetric(

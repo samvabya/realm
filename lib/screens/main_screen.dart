@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:realm/screens/chats_screen.dart';
 import 'package:realm/screens/forums_screens.dart';
 import 'package:realm/screens/home_screen.dart';
+import 'package:realm/util.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -22,31 +23,27 @@ class _MainScreenState extends State<MainScreen> {
       ].elementAt(currentPageIndex),
       bottomNavigationBar: NavigationBar(
         destinations: const [
+          NavigationDestination(icon: Icon(Icons.home_filled), label: 'Home'),
           NavigationDestination(
-              icon: Icon(
-                Icons.home_filled,
-              ),
-              label: 'Home'),
+            icon: Icon(Icons.forum_outlined),
+            selectedIcon: Icon(Icons.forum),
+            label: 'Forums',
+          ),
           NavigationDestination(
-              icon: Icon(
-                Icons.forum_outlined,
-              ),
-              selectedIcon: Icon(
-                Icons.forum,
-              ),
-              label: 'Forums'),
+            icon: Icon(Icons.chat_outlined),
+            selectedIcon: Icon(Icons.chat),
+            label: 'Chats',
+          ),
           NavigationDestination(
-              icon: Icon(
-                Icons.chat_outlined,
-              ),
-              selectedIcon: Icon(
-                Icons.chat,
-              ),
-              label: 'Chats'),
+            icon: Icon(Icons.star_border),
+            selectedIcon: Icon(Icons.chat),
+            label: 'Premium',
+          ),
         ],
         selectedIndex: currentPageIndex,
-        onDestinationSelected: (index) =>
-            setState(() => currentPageIndex = index),
+        onDestinationSelected: (index) => index != 3
+            ? setState(() => currentPageIndex = index)
+            : showSnack('Feature coming soon!', context),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       ),
     );
