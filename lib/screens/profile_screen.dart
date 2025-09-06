@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:realm/components/post_card.dart';
 import 'package:realm/main.dart';
+import 'package:realm/model/post.dart';
 import 'package:realm/model/user.dart';
 import 'package:realm/util.dart';
 
@@ -14,6 +16,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   UserModel? user;
   int segmentIndex = 0;
+  List<PostModel> allPosts = [];
+  List<PostModel> filteredPosts = [];
   Future<void> getUser() async {
     try {
       await supabase
@@ -24,14 +28,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .then((value) => user = UserModel.fromJson(value));
       setState(() {});
     } on Exception catch (e) {
-      showSnack(e.toString(), context);
+      debugPrint(e.toString());
     }
+  }
+
+  Future<void> getAllPosts() async {
+    List<PostModel> posts = [];
+    try {
+      await supabase
+          .from('posts')
+          .select()
+          .eq('userId', widget.uid ?? supabase.auth.currentUser?.id ?? '')
+          .order('created_at', ascending: false)
+          .then(
+            (value) => posts = value.map((e) => PostModel.fromJson(e)).toList(),
+          );
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+    setState(() {
+      allPosts = posts;
+      if (segmentIndex == 0) {
+        filteredPosts = posts;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getUser(),
+      future: Future.wait([getUser(), getAllPosts()]),
       builder: (context, asyncSnapshot) {
         if (user == null) {
           return Scaffold(
@@ -141,6 +167,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onSelectionChanged: (Set<int> newSelection) {
                           setState(() {
                             segmentIndex = newSelection.first;
+                            switch (segmentIndex) {
+                              case 0:
+                                filteredPosts = allPosts;
+                                break;
+                              case 1:
+                                filteredPosts = allPosts
+                                    .where((post) => post.file != null)
+                                    .toList();
+                                break;
+                              case 2:
+                                filteredPosts = allPosts
+                                    .where((post) => post.file == null)
+                                    .toList();
+                                break;
+                            }
                           });
                         },
                       ),
@@ -149,8 +190,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               SliverList.builder(
+                itemCount: filteredPosts.length,
                 itemBuilder: (context, index) =>
-                    const AspectRatio(aspectRatio: 3 / 2, child: Card()),
+                    PostCard(post: filteredPosts[index]),
               ),
             ],
           ),

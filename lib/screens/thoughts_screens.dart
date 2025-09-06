@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class ThoughtsScreens extends StatefulWidget {
@@ -9,6 +11,7 @@ class ThoughtsScreens extends StatefulWidget {
 
 class _ThoughtsScreensState extends State<ThoughtsScreens> {
   bool isFabExtended = true;
+  bool isLoading = false;
   ScrollController scrollController = ScrollController();
 
   @override
@@ -36,9 +39,23 @@ class _ThoughtsScreensState extends State<ThoughtsScreens> {
           slivers: [
             SliverAppBar(
               floating: true,
-              title: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.tag, size: 30),
+              title: TextButton.icon(
+                onPressed: () {
+                  setState(() => isLoading = true);
+                  Timer(
+                    Duration(seconds: 2),
+                    () => setState(() => isLoading = false),
+                  );
+                },
+                icon: Icon(Icons.tag, size: 30),
+                label: AnimatedSize(
+                  curve: Curves.fastOutSlowIn,
+                  reverseDuration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
+                  child: isLoading
+                      ? const Text("Refreshing thoughts")
+                      : const SizedBox(),
+                ),
               ),
               centerTitle: true,
               bottom: PreferredSize(
@@ -62,7 +79,12 @@ class _ThoughtsScreensState extends State<ThoughtsScreens> {
                 ),
               ),
             ),
-            // SliverToBoxAdapter(child: LinearProgressIndicator()),
+            SliverToBoxAdapter(
+              child: Visibility(
+                visible: isLoading,
+                child: LinearProgressIndicator(),
+              ),
+            ),
             SliverList.builder(
               itemBuilder: (context, index) =>
                   const AspectRatio(aspectRatio: 3 / 2, child: Card()),
