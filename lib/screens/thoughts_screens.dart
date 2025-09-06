@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ForumsScreens extends StatefulWidget {
-  const ForumsScreens({super.key});
+class ThoughtsScreens extends StatefulWidget {
+  const ThoughtsScreens({super.key});
 
   @override
-  State<ForumsScreens> createState() => _ForumsScreensState();
+  State<ThoughtsScreens> createState() => _ThoughtsScreensState();
 }
 
-class _ForumsScreensState extends State<ForumsScreens> {
+class _ThoughtsScreensState extends State<ThoughtsScreens> {
   bool isFabExtended = true;
   ScrollController scrollController = ScrollController();
 
@@ -36,10 +36,11 @@ class _ForumsScreensState extends State<ForumsScreens> {
           slivers: [
             SliverAppBar(
               floating: true,
-              leading: IconButton(
+              title: IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.tag),
+                icon: const Icon(Icons.tag, size: 30),
               ),
+              centerTitle: true,
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(88),
                 child: Padding(
@@ -55,41 +56,11 @@ class _ForumsScreensState extends State<ForumsScreens> {
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      hintText: 'Search Forums',
+                      hintText: 'Search Thoughts',
                     ),
                   ),
                 ),
               ),
-              actions: [
-                PopupMenuButton<int>(
-                  onSelected: (value) {},
-                  itemBuilder: (context) {
-                    return [
-                      const PopupMenuItem(
-                        value: 0,
-                        child: Row(
-                          children: [
-                            Icon(Icons.settings, size: 20),
-                            SizedBox(width: 10),
-                            Text('Settings'),
-                          ],
-                        ),
-                      ),
-                      const PopupMenuItem(
-                        value: 1,
-                        child: Row(
-                          children: [
-                            Icon(Icons.help, size: 20),
-                            SizedBox(width: 10),
-                            Text('Help'),
-                          ],
-                        ),
-                      ),
-                    ];
-                  },
-                  icon: const Icon(Icons.more_horiz),
-                ),
-              ],
             ),
             // SliverToBoxAdapter(child: LinearProgressIndicator()),
             SliverList.builder(
@@ -106,9 +77,8 @@ class _ForumsScreensState extends State<ForumsScreens> {
           duration: const Duration(milliseconds: 250),
           child: isFabExtended ? const Text("Compose") : const SizedBox(),
         ),
-        icon: const Icon(Icons.edit),
+        icon: const Icon(Icons.tag),
       ),
-      // bottomNavigationBar: BottomAppBar(),
     );
   }
 }

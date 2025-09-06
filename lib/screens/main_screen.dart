@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:realm/screens/chats_screen.dart';
-import 'package:realm/screens/forums_screens.dart';
+import 'package:realm/screens/thoughts_screens.dart';
 import 'package:realm/screens/home_screen.dart';
 import 'package:realm/util.dart';
 
@@ -18,16 +18,20 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: [
         const HomeScreen(),
-        const ForumsScreens(),
+        const ThoughtsScreens(),
         const ChatsScreen(),
       ].elementAt(currentPageIndex),
       bottomNavigationBar: NavigationBar(
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_filled), label: 'Home'),
           NavigationDestination(
-            icon: Icon(Icons.forum_outlined),
-            selectedIcon: Icon(Icons.forum),
-            label: 'Forums',
+            icon: Icon(Icons.photo_outlined),
+            selectedIcon: Icon(Icons.photo),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.cloud_outlined),
+            selectedIcon: Icon(Icons.cloud),
+            label: 'Thoughts',
           ),
           NavigationDestination(
             icon: Icon(Icons.chat_outlined),

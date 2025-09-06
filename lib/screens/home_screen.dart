@@ -34,9 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
           slivers: [
             SliverAppBar(
               floating: true,
-              leading: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.auto_awesome),
+              title: Opacity(
+                opacity: 0.2,
+                child: Image.asset(
+                  'assets/realm.png',
+                  width: 70,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(88),

@@ -13,7 +13,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   UserModel? user;
-
+  int segmentIndex = 0;
   Future<void> getUser() async {
     try {
       await supabase
@@ -115,6 +115,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ],
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
+                  child: Row(
+                    children: [
+                      SegmentedButton(
+                        showSelectedIcon: false,
+                        segments: const <ButtonSegment<int>>[
+                          ButtonSegment<int>(value: 0, label: Text('All')),
+                          ButtonSegment<int>(
+                            value: 1,
+                            icon: Icon(Icons.photo_outlined),
+                          ),
+                          ButtonSegment<int>(
+                            value: 2,
+                            icon: Icon(Icons.cloud_outlined),
+                          ),
+                        ],
+                        selected: <int>{segmentIndex},
+                        onSelectionChanged: (Set<int> newSelection) {
+                          setState(() {
+                            segmentIndex = newSelection.first;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
               SliverList.builder(
                 itemBuilder: (context, index) =>
