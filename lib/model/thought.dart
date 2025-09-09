@@ -1,6 +1,6 @@
 import 'package:realm/model/user.dart';
 
-class PostModel {
+class ThoughtModel {
   int? idx;
   int? id;
   String? createdAt;
@@ -9,10 +9,10 @@ class PostModel {
   String? userId;
   UserModel? user;
 
-  PostModel(
+  ThoughtModel(
       {this.idx, this.id, this.createdAt, this.body, this.file, this.userId});
 
-  PostModel.fromJson(Map<String, dynamic> json) {
+  ThoughtModel.fromJson(Map<String, dynamic> json) {
     idx = json['idx'];
     id = json['id'];
     createdAt = json['created_at'];

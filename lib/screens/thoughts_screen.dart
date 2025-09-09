@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:realm/components/thought_card.dart';
+import 'package:realm/components/thought_modal.dart';
+import 'package:realm/main.dart';
+import 'package:realm/model/thought.dart';
 
 class ThoughtsScreens extends StatefulWidget {
   const ThoughtsScreens({super.key});
@@ -13,6 +17,45 @@ class _ThoughtsScreensState extends State<ThoughtsScreens> {
   bool isFabExtended = true;
   bool isLoading = false;
   ScrollController scrollController = ScrollController();
+  List<ThoughtModel> allThoughts = [];
+
+  Future<void> getAllThoughts() async {
+    List<ThoughtModel> thoughts = [];
+    try {
+      await supabase
+          .from('thoughts')
+          .select('''
+              id,
+              userId,
+              file,
+              body,
+              created_at,
+              users(id, name, image)
+            ''')
+          .isFilter('head', null)
+          .order('created_at', ascending: false)
+          .then(
+            (value) => thoughts = value.map((e) {
+              return ThoughtModel.fromJson(e);
+            }).toList(),
+          );
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+    setState(() {
+      allThoughts = thoughts;
+    });
+  }
+
+  void getData() async {
+    await getAllThoughts();
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +83,9 @@ class _ThoughtsScreensState extends State<ThoughtsScreens> {
             SliverAppBar(
               floating: true,
               title: TextButton.icon(
-                onPressed: () {
+                onPressed: () async {
                   setState(() => isLoading = true);
+                  await getAllThoughts();
                   Timer(
                     Duration(seconds: 2),
                     () => setState(() => isLoading = false),
@@ -79,22 +123,25 @@ class _ThoughtsScreensState extends State<ThoughtsScreens> {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: Visibility(
-                visible: isLoading,
-                child: LinearProgressIndicator(),
-              ),
-            ),
+            if (isLoading) ...[
+              SliverToBoxAdapter(child: LinearProgressIndicator()),
+            ],
             SliverList.builder(
+              itemCount: allThoughts.length,
               itemBuilder: (context, index) =>
-                  const AspectRatio(aspectRatio: 3 / 2, child: Card()),
+                  ThoughtCard(thought: allThoughts[index]),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         extendedIconLabelSpacing: isFabExtended ? 10 : 0,
-        onPressed: () {},
+        onPressed: () => showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          showDragHandle: true,
+          builder: (context) => ThoughtModal(),
+        ),
         label: AnimatedSize(
           duration: const Duration(milliseconds: 250),
           child: isFabExtended ? const Text("Compose") : const SizedBox(),

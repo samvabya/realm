@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:realm/screens/chats_screen.dart';
-import 'package:realm/screens/thoughts_screens.dart';
+import 'package:realm/screens/thoughts_screen.dart';
 import 'package:realm/screens/home_screen.dart';
 import 'package:realm/util.dart';
 

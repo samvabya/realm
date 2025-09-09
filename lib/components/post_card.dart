@@ -12,7 +12,11 @@ class PostCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
-          if (post.file != null) Image.network(formattedUrl(post.file!)),
+          if (post.file != null)
+            AspectRatio(
+              aspectRatio: 4 / 3,
+              child: Image.network(formattedUrl(post.file!)),
+            ),
           if (post.body != null && post.body != '')
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
