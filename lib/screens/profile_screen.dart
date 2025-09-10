@@ -5,6 +5,7 @@ import 'package:realm/main.dart';
 import 'package:realm/model/post.dart';
 import 'package:realm/model/thought.dart';
 import 'package:realm/model/user.dart';
+import 'package:realm/screens/user_chat.dart';
 import 'package:realm/util.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -159,7 +160,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     ] else ...[
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserChat(user: user!),
+                          ),
+                        ),
                         icon: const Icon(Icons.chat_outlined),
                       ),
                     ],

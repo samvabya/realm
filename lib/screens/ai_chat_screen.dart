@@ -164,6 +164,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: ListTile(
           title: Text('OpenAI GPT 3.5'),
           leading: Icon(FontAwesomeIcons.openai),

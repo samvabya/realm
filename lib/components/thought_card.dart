@@ -33,6 +33,9 @@ class ThoughtCard extends StatelessWidget {
                 backgroundImage: thought.user?.image != null
                     ? NetworkImage(formattedUrl(thought.user?.image ?? ''))
                     : null,
+                child: thought.user?.image == null
+                    ? Text(thought.user?.name?[0].toUpperCase() ?? '')
+                    : null,
               ),
               title: Text(thought.user?.name ?? ''),
             ),

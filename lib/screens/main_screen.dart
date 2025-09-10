@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:realm/components/purchase_dialog.dart';
 import 'package:realm/screens/chats_screen.dart';
 import 'package:realm/screens/thoughts_screen.dart';
 import 'package:realm/screens/home_screen.dart';
-import 'package:realm/util.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -47,7 +47,13 @@ class _MainScreenState extends State<MainScreen> {
         selectedIndex: currentPageIndex,
         onDestinationSelected: (index) => index != 3
             ? setState(() => currentPageIndex = index)
-            : showSnack('Feature coming soon!', context),
+            // : showSnack('Feature coming soon!', context),
+            : showDialog(
+                context: context,
+                fullscreenDialog: true,
+                useSafeArea: false,
+                builder: (context) => const PurchaseDialog(),
+              ),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       ),
     );
