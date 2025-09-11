@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:realm/components/post_card.dart';
+import 'package:realm/components/post_modal.dart';
 import 'package:realm/components/search_modal.dart';
 import 'package:realm/main.dart';
 import 'package:realm/model/post.dart';
@@ -178,14 +179,38 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        extendedIconLabelSpacing: isFabExtended ? 10 : 0,
-        onPressed: () {},
-        label: AnimatedSize(
-          duration: const Duration(milliseconds: 250),
-          child: isFabExtended ? const Text("New Post") : const SizedBox(),
-        ),
-        icon: const Icon(Icons.photo),
+      floatingActionButton: Wrap(
+        spacing: 16,
+        direction: Axis.vertical,
+        crossAxisAlignment: WrapCrossAlignment.end,
+        children: [
+          AnimatedSize(
+            duration: const Duration(milliseconds: 250),
+            child: isFabExtended
+                ? FilledButton.tonal(
+                    onPressed: () {},
+                    child: Text(
+                      'New Story',
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  )
+                : const SizedBox(),
+          ),
+          FloatingActionButton.extended(
+            extendedIconLabelSpacing: isFabExtended ? 10 : 0,
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              showDragHandle: true,
+              builder: (context) => const PostModal(),
+            ),
+            label: AnimatedSize(
+              duration: const Duration(milliseconds: 250),
+              child: isFabExtended ? const Text("New Post") : const SizedBox(),
+            ),
+            icon: const Icon(Icons.photo),
+          ),
+        ],
       ),
     );
   }

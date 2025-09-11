@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:realm/main.dart';
 import 'package:realm/model/chat.dart';
@@ -109,4 +111,52 @@ class SupabaseService {
       debugPrint('Error deleting message: $e');
     }
   }
+
+  static Future<String?> uploadFile(
+    File file,
+    String folder,
+    bool isImage,
+  ) async {
+    try {
+      var fileName = getFilePath(folder, isImage);
+
+      await _supabase.storage
+          .from("uploads")
+          .upload(
+            fileName,
+            file,
+            fileOptions: FileOptions(
+              contentType: isImage ? "image/*" : "video/*",
+              cacheControl: '3600',
+              upsert: false,
+            ),
+          );
+
+      return fileName;
+    } catch (e) {
+      debugPrint('Error uploading file: $e');
+      return null;
+    }
+  }
+
+  static Future<void> createPost(String userId, String body, File? file) async {
+    try {
+      String? filePath;
+      if (file != null) {
+        filePath = await uploadFile(file, 'posts', true);
+      }
+
+      await _supabase.from('posts').insert({
+        'userId': userId,
+        'body': body,
+        'file': filePath,
+      });
+    } catch (e) {
+      debugPrint('Error creating post: $e');
+    }
+  }
+}
+
+String getFilePath(String folderName, bool isImage) {
+  return '/$folderName/${DateTime.now().millisecondsSinceEpoch}.${isImage ? "jpg" : "mp4"}';
 }

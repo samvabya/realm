@@ -12,6 +12,17 @@ class PostCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
+          ListTile(
+            leading: CircleAvatar(
+              backgroundImage: post.user?.image != null
+                  ? NetworkImage(formattedUrl(post.user?.image ?? ''))
+                  : null,
+              child: post.user?.image == null
+                  ? Text(post.user?.name?[0].toUpperCase() ?? '')
+                  : null,
+            ),
+            title: Text(post.user?.name ?? ''),
+          ),
           if (post.file != null)
             AspectRatio(
               aspectRatio: 4 / 3,
