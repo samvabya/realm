@@ -139,6 +139,29 @@ class SupabaseService {
     }
   }
 
+  static Future<String?> uploadProfile(File file) async {
+    try {
+      var fileName = getProfilePath();
+
+      await _supabase.storage
+          .from("uploads")
+          .upload(
+            fileName,
+            file,
+            fileOptions: FileOptions(
+              contentType: "image/*",
+              cacheControl: '3600',
+              upsert: false,
+            ),
+          );
+
+      return fileName;
+    } catch (e) {
+      debugPrint('Error uploading file: $e');
+      return null;
+    }
+  }
+
   static Future<void> createPost(String userId, String body, File? file) async {
     try {
       String? filePath;
@@ -171,8 +194,32 @@ class SupabaseService {
       debugPrint('Error creating story: $e');
     }
   }
+
+  static Future<void> updateProfile(
+    String userId,
+    String name,
+    File? file,
+  ) async {
+    try {
+      String? filePath;
+      if (file != null) {
+        filePath = await uploadProfile(file);
+      }
+
+      await _supabase
+          .from('users')
+          .update({'name': name, if (filePath != null) 'image': filePath})
+          .eq('id', userId);
+    } catch (e) {
+      debugPrint('Error updating profile: $e');
+    }
+  }
 }
 
 String getFilePath(String folderName, bool isImage) {
   return '/$folderName/${DateTime.now().millisecondsSinceEpoch}.${isImage ? "jpg" : "mp4"}';
+}
+
+String getProfilePath() {
+  return '/profile/${DateTime.now().millisecondsSinceEpoch}.jpg';
 }

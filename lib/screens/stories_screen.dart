@@ -1,8 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:realm/main.dart';
+import 'package:realm/model/user.dart';
+import 'package:realm/screens/profile_screen.dart';
+import 'package:realm/util.dart';
 
-class StoriesScreen extends StatelessWidget {
+class StoriesScreen extends StatefulWidget {
   const StoriesScreen({super.key});
+
+  @override
+  State<StoriesScreen> createState() => _StoriesScreenState();
+}
+
+class _StoriesScreenState extends State<StoriesScreen> {
+  List<UserModel> allStories = [];
+  int? currentIndex = 0;
+
+  Future<void> getStories() async {
+    List<UserModel> stories = [];
+    try {
+      await supabase
+          .from('users')
+          .select()
+          .neq('story', '')
+          .order('created_at', ascending: false)
+          .then(
+            (value) => stories = value.map((e) {
+              return UserModel.fromJson(e);
+            }).toList(),
+          );
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+    setState(() {
+      allStories = stories;
+    });
+  }
+
+  void getData() async {
+    await getStories();
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,49 +88,60 @@ class StoriesScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              AspectRatio(
-                aspectRatio: 9 / 16,
-                child: CardSwiper(
-                  padding: const EdgeInsets.all(0),
-                  backCardOffset: Offset(0, 0),
-                  isLoop: false,
-                  duration: Duration(milliseconds: 100),
-                  cardBuilder:
-                      (
-                        context,
-                        index,
-                        horizontalOffsetPercentage,
-                        verticalOffsetPercentage,
-                      ) => AspectRatio(
-                        aspectRatio: 9 / 16,
-                        child: Image.network(
-                          'https://picsum.photos/720?random=$index',
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) =>
-                              loadingProgress == null
-                              ? child
-                              : Center(
-                                  child: CircularProgressIndicator(
-                                    value:
-                                        loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                  .cumulativeBytesLoaded /
+              allStories.isEmpty
+                  ? Container()
+                  : AspectRatio(
+                      aspectRatio: 9 / 16,
+                      child: CardSwiper(
+                        padding: const EdgeInsets.all(0),
+                        backCardOffset: Offset(0, 0),
+                        isLoop: false,
+                        duration: Duration(milliseconds: 100),
+                        cardsCount: allStories.length,
+                        onSwipe: (previousIndex, currentIndex, direction) {
+                          setState(() => this.currentIndex = currentIndex);
+                          return true;
+                        },
+                        cardBuilder:
+                            (
+                              context,
+                              index,
+                              horizontalOffsetPercentage,
+                              verticalOffsetPercentage,
+                            ) => AspectRatio(
+                              aspectRatio: 9 / 16,
+                              child: Image.network(
+                                formattedUrl(allStories[index].story!),
+                                fit: BoxFit.cover,
+                                loadingBuilder:
+                                    (
+                                      context,
+                                      child,
+                                      loadingProgress,
+                                    ) => loadingProgress == null
+                                    ? child
+                                    : Center(
+                                        child: CircularProgressIndicator(
+                                          value:
                                               loadingProgress
-                                                  .expectedTotalBytes!
-                                        : null,
-                                  ),
-                                ),
-                          errorBuilder: (context, error, stackTrace) =>
-                              AspectRatio(
-                                aspectRatio: 9 / 16,
-                                child: Container(color: Colors.red),
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      ),
+                                errorBuilder: (context, error, stackTrace) =>
+                                    AspectRatio(
+                                      aspectRatio: 9 / 16,
+                                      child: Container(color: Colors.red),
+                                    ),
                               ),
-                        ),
+                            ),
                       ),
-                  cardsCount: 5,
-                ),
-              ),
+                    ),
             ],
           ),
           Spacer(),
@@ -96,29 +150,31 @@ class StoriesScreen extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         color: Colors.transparent,
         elevation: 0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 8,
-          children: [
-            FilledButton.icon(
-              onPressed: () {},
-              icon: Icon(Icons.thumb_up),
-              label: Text('Like'),
-              style: FilledButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
+        child: allStories.isEmpty || currentIndex == null
+            ? Container()
+            : ListTile(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ProfileScreen(uid: allStories[currentIndex!].id),
+                  ),
+                ),
+                leading: CircleAvatar(
+                  backgroundImage: allStories[currentIndex!].image != null
+                      ? NetworkImage(
+                          formattedUrl(allStories[currentIndex!].image ?? ''),
+                        )
+                      : null,
+                  child: allStories[currentIndex!].image == null
+                      ? Text(
+                          allStories[currentIndex!].name?[0].toUpperCase() ??
+                              '',
+                        )
+                      : null,
+                ),
+                title: Text(allStories[currentIndex!].name ?? ''),
               ),
-            ),
-            IconButton.filled(
-              onPressed: () {},
-              style: FilledButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-              ),
-              icon: Icon(Icons.undo),
-            ),
-          ],
-        ),
       ),
     );
   }

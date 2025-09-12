@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   preferredSize: const Size.fromHeight(88),
                   child: ListTile(
                     title: Text(
-                      'Hey ${getMyUsername3letters()}!',
+                      'Hey ${user.name}!',
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
@@ -256,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .from('users')
                                             .update({'story': null})
                                             .eq('id', user.id!);
-                                            
+
                                         Navigator.pop(context);
                                         Navigator.pop(context);
                                       },

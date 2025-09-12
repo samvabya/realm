@@ -1,5 +1,6 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:realm/components/edit_profile_dialog.dart';
 import 'package:realm/components/post_card.dart';
 import 'package:realm/components/thought_card.dart';
 import 'package:realm/main.dart';
@@ -192,7 +193,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                       IconButton(
                         icon: const Icon(Icons.edit_outlined),
-                        onPressed: () {},
+                        onPressed: () => showDialog(
+                          context: context,
+                          builder: (context) => EditProfileDialog(user: user!),
+                        ),
                       ),
                     ] else ...[
                       IconButton(
