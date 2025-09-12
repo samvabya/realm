@@ -10,6 +10,7 @@ import 'package:realm/model/post.dart';
 import 'package:realm/model/user.dart';
 import 'package:realm/screens/profile_screen.dart';
 import 'package:realm/screens/stories_screen.dart';
+import 'package:realm/screens/story_create.dart';
 import 'package:realm/util.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = false;
   List<PostModel> allPosts = [];
   UserModel user = UserModel();
+  bool isLogoVisible = true;
 
   Future<void> getUser() async {
     try {
@@ -74,6 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     getData();
+    Timer(
+      const Duration(seconds: 2),
+      () => setState(() => isLogoVisible = false),
+    );
     super.initState();
   }
 
@@ -95,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: LiquidPullToRefresh(
           animSpeedFactor: 1.5,
+          showChildOpacityTransition: false,
           onRefresh: () async {
             setState(() => isLoading = true);
             await getData();
@@ -107,12 +114,20 @@ class _HomeScreenState extends State<HomeScreen> {
             slivers: [
               SliverAppBar(
                 floating: true,
-                title: Opacity(
-                  opacity: 0.2,
-                  child: Image.asset(
-                    'assets/realm.png',
-                    width: 70,
-                    color: Theme.of(context).colorScheme.primary,
+                title: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 2000),
+                  curve: Curves.easeIn,
+                  opacity: isLogoVisible ? 1 : 0.2,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() => isLogoVisible = true);
+                      initState();
+                    },
+                    child: Image.asset(
+                      'assets/realm.png',
+                      width: 70,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ),
                 actions: [
@@ -188,7 +203,80 @@ class _HomeScreenState extends State<HomeScreen> {
             duration: const Duration(milliseconds: 250),
             child: isFabExtended
                 ? FilledButton.tonal(
-                    onPressed: () {},
+                    onPressed: user.story == null
+                        ? () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const StoryCreate(),
+                            ),
+                          )
+                        : () => showModalBottomSheet(
+                            context: context,
+                            builder: (context) => Container(
+                              width: double.maxFinite,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    FilledButton(
+                                      onPressed: () => showDialog(
+                                        context: context,
+                                        builder: (context) => Container(
+                                          child: Center(
+                                            child: Image.network(
+                                              formattedUrl(user.story!),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      child: Text('View Story'),
+                                    ),
+                                    FilledButton(
+                                      style: FilledButton.styleFrom(
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.error,
+                                      ),
+                                      onPressed: () async {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => Center(
+                                            child: SizedBox(
+                                              width: 100,
+                                              height: 1,
+                                              child: LinearProgressIndicator(),
+                                            ),
+                                          ),
+                                        );
+
+                                        await supabase
+                                            .from('users')
+                                            .update({'story': null})
+                                            .eq('id', user.id!);
+                                            
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Delete Story'),
+                                    ),
+                                    FilledButton.tonal(
+                                      onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const StoryCreate(),
+                                        ),
+                                      ),
+                                      child: Text('New Story'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                     child: Text(
                       'New Story',
                       style: Theme.of(context).textTheme.labelSmall,

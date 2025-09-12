@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.0"
+  avatar_glow:
+    dependency: "direct main"
+    description:
+      name: avatar_glow
+      sha256: "848d9a85065e398241d8ffae0dcc50902980c24490aef21fd4c6b6342d4c26b4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -73,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.1"
+  color_filter_extension:
+    dependency: "direct main"
+    description:
+      name: color_filter_extension
+      sha256: "591a9f8c135dcb727d156d55b4e811cbdf0a75639c16cae55ee9b22351baeba5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   cross_file:
     dependency: transitive
     description:
@@ -416,6 +432,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.1"
+  matrix_gesture_detector_pro:
+    dependency: "direct main"
+    description:
+      name: matrix_gesture_detector_pro
+      sha256: "85a5ee5bf3e96300cf20c652119aad9bf90e7ebeaab95cd13d10ad67d3371b01"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   meta:
     dependency: transitive
     description:
@@ -441,7 +465,7 @@ packages:
     source: hosted
     version: "1.9.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: "50c5dd5b6e1aaf6fb3a78b33f6aa3afca52bf903a8a5298f53101fdaee55bbcd"
@@ -781,6 +805,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  widgets_to_image:
+    dependency: "direct main"
+    description:
+      name: widgets_to_image
+      sha256: "4e5b7e88bf62c06a91762a9a713096f095361e4c8e81fdd3875cf19cdad73d3e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   xdg_directories:
     dependency: transitive
     description:

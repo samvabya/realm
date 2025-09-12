@@ -143,7 +143,7 @@ class SupabaseService {
     try {
       String? filePath;
       if (file != null) {
-        filePath = await uploadFile(file, 'posts', true);
+        filePath = await uploadFile(file, 'postImages', true);
       }
 
       await _supabase.from('posts').insert({
@@ -153,6 +153,22 @@ class SupabaseService {
       });
     } catch (e) {
       debugPrint('Error creating post: $e');
+    }
+  }
+
+  static Future<void> createStory(String userId, File? file) async {
+    try {
+      String? filePath;
+      if (file != null) {
+        filePath = await uploadFile(file, 'stories', true);
+      }
+
+      await _supabase
+          .from('users')
+          .update({'story': filePath})
+          .eq('id', userId);
+    } catch (e) {
+      debugPrint('Error creating story: $e');
     }
   }
 }

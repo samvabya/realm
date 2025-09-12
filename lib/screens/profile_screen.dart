@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:realm/components/post_card.dart';
 import 'package:realm/components/thought_card.dart';
@@ -109,6 +110,41 @@ class _ProfileScreenState extends State<ProfileScreen>
     super.initState();
   }
 
+  Widget _buildUserAvatar() {
+    return GestureDetector(
+      onTap: user?.story == null
+          ? null
+          : () => showDialog(
+              context: context,
+              builder: (context) => Container(
+                child: Center(child: Image.network(formattedUrl(user!.story!))),
+              ),
+            ),
+      onLongPress: user?.image == null
+          ? null
+          : () => showDialog(
+              context: context,
+              builder: (context) => Container(
+                child: Center(
+                  child: ClipOval(
+                    child: Image.network(
+                      formattedUrl(user!.image!),
+                      width: 200,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+      child: CircleAvatar(
+        radius: 30,
+        backgroundImage: user?.image != null
+            ? NetworkImage(formattedUrl(user!.image!))
+            : null,
+        child: user?.image == null ? const Icon(Icons.person, size: 30) : null,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,15 +212,20 @@ class _ProfileScreenState extends State<ProfileScreen>
                       children: [
                         ListTile(
                           isThreeLine: true,
-                          leading: CircleAvatar(
-                            radius: 30,
-                            backgroundImage: user?.image != null
-                                ? NetworkImage(formattedUrl(user!.image!))
-                                : null,
-                            child: user?.image == null
-                                ? const Icon(Icons.person, size: 30)
-                                : null,
-                          ),
+                          leading: user?.story == null
+                              ? _buildUserAvatar()
+                              : AvatarGlow(
+                                  glowRadiusFactor: 0.5,
+                                  startDelay: const Duration(
+                                    milliseconds: 1000,
+                                  ),
+                                  glowColor: Theme.of(
+                                    context,
+                                  ).colorScheme.primary,
+                                  glowShape: BoxShape.circle,
+                                  curve: Curves.fastOutSlowIn,
+                                  child: _buildUserAvatar(),
+                                ),
                           title: Text(
                             user?.name ?? 'Realm User',
                             overflow: TextOverflow.ellipsis,

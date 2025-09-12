@@ -7,6 +7,8 @@ environment:
   sdk: ^3.9.0
 
 dependencies:
+  avatar_glow: ^3.0.1
+  color_filter_extension: ^0.0.2
   flutter:
     sdk: flutter
   flutter_card_swiper: ^7.0.2
@@ -18,7 +20,10 @@ dependencies:
   image_cropper: ^9.1.0
   image_picker: ^1.2.0
   liquid_pull_to_refresh: ^3.0.1
+  matrix_gesture_detector_pro: ^1.0.0
+  path_provider: ^2.1.5
   supabase_flutter: ^2.10.0
+  widgets_to_image: ^2.0.1
 
 dev_dependencies:
   flutter_test:
