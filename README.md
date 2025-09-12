@@ -26,6 +26,12 @@
 - Premium Material 3 UI
 - Responsive Dark and Light mode
 
+## Coming Soon
+
+- Like, Comment on photos and thoughts
+- Cross-platform web app
+- Wallpaper matching dynamic theme
+
 ## Installation
 
 [<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png"
