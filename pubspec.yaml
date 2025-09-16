@@ -9,6 +9,7 @@ environment:
 dependencies:
   avatar_glow: ^3.0.1
   color_filter_extension: ^0.0.2
+  dynamic_color: ^1.8.1
   flutter:
     sdk: flutter
   flutter_card_swiper: ^7.0.2

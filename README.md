@@ -25,12 +25,12 @@
 - Chat with GPT AI(NEW)
 - Premium Material 3 UI
 - Responsive Dark and Light mode
+- Wallpaper adaptive dynamic theme(NEW)
 
 ## Coming Soon
 
 - Like, Comment on photos and thoughts
 - Cross-platform web app
-- Wallpaper matching dynamic theme
 
 ## Installation
 

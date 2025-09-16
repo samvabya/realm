@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   preferredSize: const Size.fromHeight(88),
                   child: ListTile(
                     title: Text(
-                      'Hey ${user.name}!',
+                      'Hey ${user.name ?? ''}!',
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),

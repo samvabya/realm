@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -26,25 +27,23 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepOrange,
-          brightness: Brightness.light,
-        ),
-        fontFamily: GoogleFonts.poppins().fontFamily,
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepOrange,
-          brightness: Brightness.dark,
-        ),
-        fontFamily: GoogleFonts.poppins().fontFamily,
-      ),
-      themeMode: ThemeMode.system,
-      home: const AuthWrapper(),
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightDynamic,
+            fontFamily: GoogleFonts.poppins().fontFamily,
+          ),
+          darkTheme: ThemeData(
+            colorScheme: darkDynamic,
+            fontFamily: GoogleFonts.poppins().fontFamily,
+          ),
+          themeMode: ThemeMode.system,
+          home: const AuthWrapper(),
+        );
+      }
     );
   }
 }
