@@ -18,24 +18,42 @@
 
 ## Features
 
-- Share photos on the go
-- Share and comment on thoughts(NEW)
-- Create wonderful stories
-- Chat with one another
-- Chat with GPT AI(NEW)
-- Premium Material 3 UI
-- Responsive Dark and Light mode
-- Wallpaper adaptive dynamic theme(NEW)
+### Posts
 
-## Coming Soon
+- share photo posts hassle free
+- use filter to enhance your pics
+- like and comment (soon)
 
-- Like, Comment on photos and thoughts
-- Cross-platform web app
+### Stories
+
+- post single persistent story
+- edit photos with filters
+- add text with various fonts and styles and colors
+- view each other stories on profile with crazy glow animation
+- your stories don't disappear 
+
+### Thoughts (new)
+
+- share your thoughts on a topic by using hashtags
+- guys with similar interest can follow or join you on the topic
+- discuss the topic in brief in the thought comment section
+- comment on each other's thoughts
+- share your opinion and know other's
+
+### Misc
+
+- minimal subtle UI for relaxed experience
+- caos free feed
+- search people and view their profile
+- material 3 design inspired from Google apps
+- adaptive dynamic colour theme adapts to wallpaper
+- sign in with google (to be fixed)
+- cross platform accessibility for web (soon)
+
 
 ## Installation
 
-[<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png"
-    alt="Get it on GitHub"
+[<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.p it on GitHub"
     height="80">](https://github.com/samvabya/realm/releases/latest)
 
 ## Tech Stack
