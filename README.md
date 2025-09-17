@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="./assets/realm.png" width="128" style="display: block; margin: 0 auto"/>
+    <img src="./android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="128" style="display: block; margin: 0 auto"/>
     <h1>realm</h1>
     <p>An Alrounder Social Media App built in Flutter.</p>
 </div>
